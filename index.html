@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hoja de Investigación Interactiva - El Bucle</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Orbitron:wght@700&display=swap" rel="stylesheet">
+    <style>
+        /* Estilos personalizados inspirados en la web de El Bucle */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0c0c0f; 
+            color: #e0e0e0;
+            display: flex; 
+            flex-direction: column; 
+            min-height: 100vh; 
+        }
+        .main-content-area {
+            flex-grow: 1; 
+        }
+        .main-title {
+            font-family: 'Orbitron', sans-serif;
+            color: #00f9ff;
+            text-shadow: 0 0 5px #00f9ff, 0 0 10px #00f9ff, 0 0 15px #00f9ff;
+            font-size: 2.5rem;
+            letter-spacing: 0.1em;
+            margin-bottom: 1.5rem; 
+        }
+        @media (min-width: 768px) {
+            .main-title {
+                font-size: 3.5rem;
+            }
+        }
+
+        .card {
+            background-color: rgba(10, 25, 47, 0.8);
+            border: 1px solid #00f9ff;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 0 15px rgba(0, 249, 255, 0.3), 0 0 5px rgba(0, 249, 255, 0.5) inset;
+        }
+        .card-title {
+            font-family: 'Inter', sans-serif;
+            font-weight: 900;
+            color: #00f9ff;
+            font-size: 1.5rem;
+            margin-bottom: 1.25rem;
+            border-bottom: 2px solid #00f9ff;
+            padding-bottom: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        label { 
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+            color: #c0c0c0;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 0.05em;
+        }
+        input[type="number"],
+        input[type="text"],
+        select { /* Inputs y Selects */
+            background-color: rgba(0, 0, 0, 0.5);
+            border: 1px solid #007c80;
+            color: #e0e0e0;
+            padding: 0.75rem;
+            border-radius: 0.375rem;
+            width: 100%;
+            margin-bottom: 1rem;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        textarea { 
+            background-color: rgba(0, 0, 0, 0.5);
+            border: 1px solid #007c80;
+            color: #e0e0e0;
+            padding: 0.5rem !important; 
+            border-radius: 0.375rem;
+            width: 100%;
+            margin-bottom: 1rem;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            line-height: 1.6; 
+        }
+        input[type="number"]:focus,
+        input[type="text"]:focus,
+        textarea:focus,
+        select:focus {
+            outline: none;
+            border-color: #00f9ff;
+            box-shadow: 0 0 8px rgba(0, 249, 255, 0.5);
+        }
+
+        /* Estilos de Botones Principales (en footer-actions) */
+        .footer-actions button { 
+            background-color: #00f9ff; 
+            color: #0c0c0f; 
+            padding: 0.85rem 1.75rem; 
+            border-radius: 0.375rem;
+            border: 2px solid #00f9ff; 
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease, transform 0.1s ease; 
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin: 0.25rem;
+            box-shadow: 0 0 8px rgba(0, 249, 255, 0.5), 0 0 15px rgba(0, 249, 255, 0.3); 
+        }
+
+        .footer-actions button:hover {
+            background-color: #00c7cc; 
+            color: #000000; 
+            box-shadow: 0 0 12px rgba(0, 249, 255, 0.7), 0 0 25px rgba(0, 249, 255, 0.5); 
+            transform: translateY(-1px); 
+        }
+        
+         /* Botón Añadir Arma */
+         #addWeaponButton {
+            background-color: #00f9ff; color: #0c0c0f; padding: 0.7rem 1.5rem; border-radius: 0.375rem;
+            border: 2px solid #00f9ff; cursor: pointer; transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease, transform 0.1s ease;
+            font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin: 0.25rem;
+            box-shadow: 0 0 8px rgba(0, 249, 255, 0.5), 0 0 15px rgba(0, 249, 255, 0.3);
+            font-size: 0.9rem;
+         }
+         #addWeaponButton:hover {
+            background-color: #00c7cc; color: #000000;
+            box-shadow: 0 0 12px rgba(0, 249, 255, 0.7), 0 0 25px rgba(0, 249, 255, 0.5);
+            transform: translateY(-1px);
+         }
+         #addWeaponButton:disabled {
+            opacity: 0.6; cursor: not-allowed; background-color: #007c80;
+            color: #a0a0a0; box-shadow: none; transform: none;
+         }
+        /* Estilo específico para el botón de Lanzar Dado */
+        #diceButton {
+            background-color: #00f9ff; 
+            color: #0c0c0f; 
+            padding: 0.7rem 1.5rem; 
+            border-radius: 0.375rem;
+            border: 2px solid #00f9ff; 
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease, transform 0.1s ease; 
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            box-shadow: 0 0 8px rgba(0, 249, 255, 0.5), 0 0 15px rgba(0, 249, 255, 0.3); 
+            width: auto; 
+            align-self: center; 
+        }
+        #diceButton:hover {
+             background-color: #00c7cc; 
+            color: #000000; 
+            box-shadow: 0 0 12px rgba(0, 249, 255, 0.7), 0 0 25px rgba(0, 249, 255, 0.5); 
+            transform: translateY(-1px); 
+        }
+        /* Estilo para el resultado del dado */
+        .dice-result {
+            font-family: 'Orbitron', sans-serif; 
+            font-size: 2.8rem; 
+            font-weight: 700; 
+            color: #4B0082; 
+            background-color: #FADADD; 
+            border: 3px solid #FADADD; 
+            border-radius: 0.6rem; 
+            width: 5rem;  
+            height: 5rem; 
+            display: none; 
+            justify-content: center;
+            align-items: center;
+            text-shadow: none; 
+            margin-top: 0.75rem; 
+            box-shadow: 0 2px 5px rgba(0,0,0,0.15), 0 0 10px rgba(250, 218, 221, 0.4) inset, 0 0 8px rgba(250, 218, 221, 0.6); 
+            min-height: 5rem; 
+        }
+
+
+        /* Otros Botones (Estadísticas, Eliminar Arma) */
+        .stat-control button {
+            background-color: transparent; color: #00f9ff; width: 2.5rem; height: 2.5rem; padding: 0;
+            line-height: 2.5rem; font-size: 1.5rem; border: 1px solid #00f9ff; border-radius: 0.375rem;
+            transition: background-color 0.3s ease, color 0.3s ease, opacity 0.3s ease;
+        }
+        .stat-control button:hover:not(:disabled) {
+             background-color: rgba(0, 249, 255, 0.2); color: #ffffff;
+        }
+        .stat-control button:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        .remove-weapon-btn {
+            background: transparent !important; border: none !important; color: #ff4d4d !important;
+            font-size: 1.5rem !important; padding: 0 0.5rem !important; box-shadow: none !important;
+            line-height: 1; transition: color 0.3s ease;
+        }
+        .remove-weapon-btn:hover { color: #ff0000 !important; background: transparent !important; }
+
+        /* Vida Radio Buttons */
+        .radio-group {
+            display: flex; 
+            flex-direction: column; 
+            gap: 0.75rem; 
+        }
+        .radio-group label {
+            display: inline-flex; align-items: center; margin-right: 0; font-weight: normal;
+            cursor: pointer; color: #c0c0c0; text-transform: none; font-size: 0.9rem;
+        }
+        .radio-group input[type="radio"] {
+           accent-color: #00f9ff; margin-right: 0.5rem; width: 1.2em;
+           height: 1.2em; vertical-align: middle;
+        }
+
+
+        /* Modal Styles */
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.7); padding-top: 60px; }
+        .modal-content { background-color: #0a192f; margin: 5% auto; padding: 25px; border: 1px solid #00f9ff; border-radius: 0.75rem; width: 80%; max-width: 500px; box-shadow: 0 0 25px rgba(0, 249, 255, 0.4); color: #e0e0e0; }
+        .modal-content h2 { color: #00f9ff; font-family: 'Orbitron', sans-serif; text-align: center; margin-bottom: 1.5rem; font-size: 1.8rem; }
+        .modal-content label { font-size: 0.9rem; color: #00f9ff; }
+        .modal-content input[type="text"], .modal-content select { margin-bottom: 1.5rem; } 
+        .modal-buttons { display: flex; flex-direction: column; /* Apilar botones en el modal */ align-items: stretch; /* Estirar botones al ancho completo */ gap: 0.75rem; margin-top: 1.5rem; }
+        .modal-buttons button { background-color: #00f9ff; color: #0c0c0f; padding: 0.7rem 1.5rem; border-radius: 0.375rem; border: 2px solid #00f9ff; cursor: pointer; transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease, transform 0.1s ease; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; box-shadow: 0 0 8px rgba(0, 249, 255, 0.5); width: 100%; /* Hacer que los botones ocupen todo el ancho */ } 
+        .modal-buttons button:hover { background-color: #00c7cc; color: #000000; box-shadow: 0 0 12px rgba(0, 249, 255, 0.7); transform: translateY(-1px); }
+        .modal-buttons .cancel-button { background-color: transparent; color: #ff4d4d; border-color: #ff4d4d; box-shadow: 0 0 8px rgba(255, 77, 77, 0.5); }
+        .modal-buttons .cancel-button:hover { background-color: #ff4d4d; color: #0c0c0f; border-color: #ff4d4d; box-shadow: 0 0 12px rgba(255, 77, 77, 0.7); }
+        .modal-buttons .export-button { background-color: transparent; color: #34d399; border-color: #34d399; box-shadow: 0 0 8px rgba(52, 211, 153, 0.5); } 
+        .modal-buttons .export-button:hover { background-color: #34d399; color: #0c0c0f; border-color: #34d399; box-shadow: 0 0 12px rgba(52, 211, 153, 0.7); }
+        
+        #characterList, #saveCharacterSelect { list-style: none; padding: 0; max-height: 200px; overflow-y: auto; border: 1px solid #007c80; border-radius: 0.375rem; margin-bottom: 1.5rem; background-color: rgba(0,0,0,0.3); }
+        #characterList li, #saveCharacterSelect option { padding: 0.8rem 1rem; border-bottom: 1px solid #007c80; }
+        #characterList li {display: flex; justify-content: space-between; align-items: center; cursor: pointer; transition: background-color 0.2s ease; }
+        #characterList li:last-child, #saveCharacterSelect option:last-child { border-bottom: none; }
+        #characterList li:hover, #saveCharacterSelect option:hover { background-color: rgba(0, 249, 255, 0.1); }
+        #characterList .character-name { font-weight: bold; color: #ffffff; }
+        #characterList .delete-char-btn { background: none; border: none; color: #ff4d4d; font-size: 1.2rem; cursor: pointer; padding: 0 0.5rem; transition: color 0.2s ease; }
+        #characterList .delete-char-btn:hover { color: #ff0000; }
+        #loadCharacterMessage { text-align: center; color: #c0c0c0; margin-top: 1rem; }
+
+        #saveCharacterSelect {
+            width: 100%;
+            padding: 0.75rem;
+            background-color: rgba(0, 0, 0, 0.5);
+            border: 1px solid #007c80;
+            color: #e0e0e0;
+            border-radius: 0.375rem;
+        }
+        #saveCharacterSelect option {
+             background-color: #0a192f; 
+             color: #e0e0e0;
+             padding: 0.5rem 1rem;
+        }
+        #importFile { display: none; } 
+
+
+        /* Resto de Estilos (sin cambios) */
+        .stat-value { font-size: 1.75rem; font-weight: 700; min-width: 3.5rem; text-align: center; color: #ffffff; background-color: rgba(0,0,0,0.3); padding: 0.25rem 0.5rem; border-radius: 0.25rem; }
+        #tiempoValue { color: #ffffff; font-size: 1.75rem; font-weight: 700; }
+        .weapon-row input, .weapon-row select { margin-bottom: 0.5rem; }
+        .vida-sano { border-left: 5px solid #00f9ff; box-shadow: 0 0 10px rgba(0, 249, 255, 0.4) inset; }
+        .vida-herido { border-left: 5px solid #ffd700; box-shadow: 0 0 10px rgba(255, 215, 0, 0.4) inset; }
+        .vida-grave { border-left: 5px solid #ff4d4d; box-shadow: 0 0 10px rgba(255, 77, 77, 0.4) inset; }
+        .grid-container { display: grid; gap: 1.5rem; grid-template-columns: repeat(1, minmax(0, 1fr)); }
+        @media (min-width: 768px) { .grid-container { grid-template-columns: repeat(2, minmax(0, 1fr)); } .md\:col-span-2 { grid-column: span 2 / span 2; } }
+        @media (min-width: 1024px) { .grid-container { grid-template-columns: repeat(3, minmax(0, 1fr)); } .lg\:col-span-1 { grid-column: span 1 / span 1; } .lg\:col-span-2 { grid-column: span 2 / span 2; } .lg\:col-span-3 { grid-column: span 3 / span 3; } }
+        .notes-grid-container { display: grid; gap: 1.5rem; grid-template-columns: repeat(1, minmax(0, 1fr)); }
+        @media (min-width: 768px) { .notes-grid-container { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+        @media (min-width: 1024px) { .notes-grid-container { grid-template-columns: repeat(3, minmax(0, 1fr)); } .notes-grid-container .lg\:col-span-3 { grid-column: span 3 / span 3; } }
+        #saveStatus { font-weight: bold; letter-spacing: 0.05em; }
+        .text-green-400 { color: #34d399; text-shadow: 0 0 3px #34d399;}
+        .text-red-400 { color: #f87171; text-shadow: 0 0 3px #f87171;}
+        .text-blue-400 { color: #60a5fa; text-shadow: 0 0 3px #60a5fa;}
+
+        /* Footer para los botones principales */
+        .footer-actions {
+            background-color: rgba(10, 25, 47, 0.95); 
+            border-top: 2px solid #00f9ff; 
+            padding: 1.5rem; 
+            margin-top: auto; 
+            box-shadow: 0 -5px 20px rgba(0, 249, 255, 0.25); 
+            width: 100%; 
+        }
+    </style>
+</head>
+<body class="p-0 md:p-0"> 
+
+    <div class="main-content-area p-4 md:p-8"> 
+        <h1 class="main-title text-center">EL BUCLE - H.I.A.</h1>
+
+        <div class="grid-container">
+            <div class="card lg:col-span-1">
+                <h2 class="card-title">Características</h2>
+                <p class="text-sm text-gray-400 mb-4">A repartir <span id="totalPoints" class="font-bold text-white">7</span> puntos (máx 5 en cada una).</p>
+                <div class="mb-4">
+                    <label>MENTE:</label>
+                    <div class="flex items-center justify-center gap-4 stat-control">
+                        <button id="menteMinus" aria-label="Restar Mente">-</button>
+                        <span id="menteValue" class="stat-value">0</span>
+                        <button id="mentePlus" aria-label="Sumar Mente">+</button>
+                    </div>
+                </div>
+                <div class="mb-6"> 
+                    <label>CUERPO:</label>
+                     <div class="flex items-center justify-center gap-4 stat-control">
+                        <button id="cuerpoMinus" aria-label="Restar Cuerpo">-</button>
+                        <span id="cuerpoValue" class="stat-value">0</span>
+                        <button id="cuerpoPlus" aria-label="Sumar Cuerpo">+</button>
+                    </div>
+                </div>
+                <div class="mt-6 pt-6 border-t border-gray-700"> 
+                    <div class="flex flex-col items-center gap-3">
+                         <button id="diceButton">LANZAR DADO</button> 
+                         <div id="diceResult" class="dice-result"></div> 
+                    </div>
+                </div>
+                 <p id="pointsError" class="text-red-500 text-sm mt-4 text-center font-semibold"></p> 
+            </div>
+
+            <div id="vidaCard" class="card lg:col-span-1">
+                <h2 class="card-title">Vida</h2>
+                <div class="radio-group"> 
+                    <label>
+                        <input type="radio" name="vida" value="sano" checked> Sano
+                    </label>
+                    <label>
+                        <input type="radio" name="vida" value="herido"> Herido
+                    </label>
+                    <label>
+                        <input type="radio" name="vida" value="grave"> Grave <span class="text-xs text-red-400 ml-1">(-1 CUERPO y MENTE)</span>
+                    </label>
+                </div>
+                 <p class="text-xs text-gray-400 mt-3">Si la vida llega a 0, estás muerto (pasa al 14).</p>
+            </div>
+
+            <div class="card lg:col-span-1">
+                <h2 class="card-title">Gesta y Tiempo</h2>
+                <div class="mb-4">
+                    <label for="gestaInput">GESTA:</label>
+                    <div class="flex items-center justify-center gap-4 stat-control">
+                        <button onclick="adjustValue('gestaInput', -1)">-</button>
+                        <input type="number" id="gestaInput" value="0" min="0" class="stat-value !w-20 text-center !p-1">
+                        <button onclick="adjustValue('gestaInput', 1)">+</button>
+                    </div>
+                </div>
+                 <div class="mb-4">
+                    <label for="diasInput">DÍAS en el Bucle:</label>
+                     <div class="flex items-center justify-center gap-4 stat-control">
+                        <button onclick="adjustValue('diasInput', -1)">-</button>
+                        <input type="number" id="diasInput" value="1" min="1" class="stat-value !w-20 text-center !p-1">
+                        <button onclick="adjustValue('diasInput', 1)">+</button>
+                    </div>
+                     <p class="text-xs text-gray-400 mt-1 text-center">Suma 1 GESTA por semana (7 días).</p>
+                </div>
+                <div>
+                    <label>TIEMPO (Hora):</label>
+                     <div class="flex items-center justify-center gap-4 stat-control">
+                        <button id="timeMinus">-</button>
+                        <span id="tiempoValue" class="stat-value">8</span>
+                        <button id="timePlus">+</button>
+                    </div>
+                     <p class="text-xs text-gray-400 mt-1 text-center">De 8 a 23. Al llegar a 24, reinicia el día.</p>
+                </div>
+            </div>
+
+            <div class="card md:col-span-2 lg:col-span-3">
+                 <h2 class="card-title">Objetos</h2>
+                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                     <div>
+                         <h3 class="font-bold text-lg mb-3 text-gray-300 uppercase tracking-wider">Armas <span class="text-xs normal-case text-gray-400">(Máximo 3)</span></h3>
+                         <div id="weaponsContainer">
+                             </div>
+                         <button id="addWeaponButton">Añadir Arma</button>
+                     </div>
+                     <div>
+                         <div class="mb-4">
+                             <label for="inventoryInput">INVENTARIO:</label>
+                             <textarea id="inventoryInput" rows="6"></textarea>
+                         </div>
+                         <div>
+                             <label for="moneyInput">DINERO (CRÉDITOS):</label>
+                             <input type="number" id="moneyInput" value="0" min="0">
+                         </div>
+                     </div>
+                 </div>
+            </div>
+
+            <div class="card md:col-span-2 lg:col-span-3">
+                <h2 class="card-title">Pistas</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div>
+                        <label for="pistasNormales">PISTAS NORMALES:</label>
+                        <textarea id="pistasNormales" rows="8"></textarea>
+                    </div>
+                    <div>
+                        <label for="pistasConfidenciales">PISTAS CONFIDENCIALES:</label>
+                        <textarea id="pistasConfidenciales" rows="8"></textarea>
+                    </div>
+                     <div>
+                        <label for="pistasTemporales">PISTAS TEMPORALES:</label>
+                        <textarea id="pistasTemporales" rows="8"></textarea>
+                         <p class="text-xs text-gray-400 mt-1">Borrar al pasar por la sección 1 / Nuevo día.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="notasCard" class="card md:col-span-2 lg:col-span-3">
+                <h2 class="card-title">Notas por Zona</h2>
+                 <div class="notes-grid-container">
+                     <div>
+                         <label for="notasTanis">CENTRO DE TANIS:</label>
+                         <textarea id="notasTanis" rows="5"></textarea>
+                     </div>
+                     <div>
+                         <label for="notasNorte">DISTRITO NORTE:</label>
+                         <textarea id="notasNorte" rows="5"></textarea>
+                     </div>
+                     <div>
+                         <label for="notasSur">DISTRITO SUR:</label>
+                         <textarea id="notasSur" rows="5"></textarea>
+                     </div>
+                     <div>
+                         <label for="notasMalecon">BARRIO DEL MALECÓN:</label>
+                         <textarea id="notasMalecon" rows="5"></textarea>
+                     </div>
+                     <div>
+                         <label for="notasArrabales">ARRABALES OCCIDENTALES:</label>
+                         <textarea id="notasArrabales" rows="5"></textarea>
+                     </div>
+                     <div class="md:col-span-2 lg:col-span-3">
+                         <label for="otrasNotas">OTRAS NOTAS GENERALES:</label>
+                         <textarea id="otrasNotas" rows="5"></textarea>
+                     </div>
+                 </div>
+            </div>
+        </div> </div> <div class="footer-actions flex flex-wrap justify-center items-center gap-4">
+        <button id="newCharacterButton">Nuevo Personaje</button>
+        <button id="loadButton">Cargar Personaje</button>
+        <button id="saveButton">Guardar Personaje</button>
+        <p id="saveStatus" class="text-sm w-full text-center mt-2 order-last"></p> 
+        <p id="currentCharacter" class="text-sm w-full text-center mt-1 text-gray-400 order-last"></p> 
+    </div>
+
+
+    <div id="saveModal" class="modal">
+        <div class="modal-content">
+            <h2>Guardar Personaje</h2>
+            <label for="characterNameInput">Nombre Nuevo o Existente:</label>
+            <input type="text" id="characterNameInput" placeholder="Escribe un nombre...">
+            
+            <label for="saveCharacterSelect" class="mt-4">O sobrescribir existente:</label>
+            <select id="saveCharacterSelect">
+                <option value="">-- Selecciona para sobrescribir --</option>
+                </select>
+
+            <p id="saveError" class="text-red-500 text-sm mb-4 mt-2"></p>
+            <div class="modal-buttons">
+                <button id="confirmSaveButton">Guardar en Navegador</button>
+                <button id="exportCharacterButton" class="export-button">Exportar a Fichero</button>
+                <button id="cancelSaveButton" class="cancel-button">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="loadModal" class="modal">
+        <div class="modal-content">
+            <h2>Cargar Personaje</h2>
+            <input type="file" id="importFile" accept=".json"> <p class="mb-2 text-gray-400">Selecciona un personaje guardado en el navegador:</p>
+            <ul id="characterList">
+                </ul>
+            <p id="loadCharacterMessage" class="text-gray-400"></p>
+            <div class="modal-buttons"> <button id="triggerImportButton" class="export-button">Importar desde Fichero</button> <button id="closeLoadModalButton" class="cancel-button">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        // --- Constantes y Variables Globales ---
+        const MAX_TOTAL_POINTS = 7;
+        const MAX_STAT_POINTS = 5;
+        const MAX_WEAPONS = 3;
+        const STORAGE_KEY_PREFIX = 'elBucleCharacter_';
+        const CHARACTER_LIST_KEY = 'elBucleCharacterList_v2'; 
+        let characteristics = { mente: 0, cuerpo: 0 };
+        let weapons = [];
+        let currentCharacterName = null;
+
+        // --- Elementos del DOM ---
+        const menteValueEl = document.getElementById('menteValue');
+        const cuerpoValueEl = document.getElementById('cuerpoValue');
+        const mentePlusBtn = document.getElementById('mentePlus');
+        const menteMinusBtn = document.getElementById('menteMinus');
+        const cuerpoPlusBtn = document.getElementById('cuerpoPlus');
+        const cuerpoMinusBtn = document.getElementById('cuerpoMinus');
+        const totalPointsEl = document.getElementById('totalPoints');
+        const pointsErrorEl = document.getElementById('pointsError');
+        const vidaRadios = document.querySelectorAll('input[name="vida"]');
+        const vidaCard = document.getElementById('vidaCard');
+        const gestaInput = document.getElementById('gestaInput');
+        const diasInput = document.getElementById('diasInput');
+        const tiempoValueEl = document.getElementById('tiempoValue');
+        const timePlusBtn = document.getElementById('timePlus');
+        const timeMinusBtn = document.getElementById('timeMinus');
+        const inventoryInput = document.getElementById('inventoryInput');
+        const moneyInput = document.getElementById('moneyInput');
+        const pistasNormales = document.getElementById('pistasNormales');
+        const pistasConfidenciales = document.getElementById('pistasConfidenciales');
+        const pistasTemporales = document.getElementById('pistasTemporales');
+        const notasTanisEl = document.getElementById('notasTanis');
+        const notasNorteEl = document.getElementById('notasNorte');
+        const notasSurEl = document.getElementById('notasSur');
+        const notasMaleconEl = document.getElementById('notasMalecon');
+        const notasArrabalesEl = document.getElementById('notasArrabales');
+        const otrasNotas = document.getElementById('otrasNotas');
+        const diceButton = document.getElementById('diceButton');
+        const diceResultEl = document.getElementById('diceResult');
+        const newCharacterButton = document.getElementById('newCharacterButton'); 
+        const saveButton = document.getElementById('saveButton');
+        const loadButton = document.getElementById('loadButton');
+        const saveStatusEl = document.getElementById('saveStatus');
+        const currentCharacterEl = document.getElementById('currentCharacter');
+        const weaponsContainer = document.getElementById('weaponsContainer');
+        const addWeaponButton = document.getElementById('addWeaponButton');
+
+        // Modal elements
+        const saveModal = document.getElementById('saveModal');
+        const loadModal = document.getElementById('loadModal');
+        const characterNameInput = document.getElementById('characterNameInput');
+        const saveCharacterSelect = document.getElementById('saveCharacterSelect'); 
+        const confirmSaveButton = document.getElementById('confirmSaveButton');
+        const exportCharacterButton = document.getElementById('exportCharacterButton'); 
+        const cancelSaveButton = document.getElementById('cancelSaveButton');
+        const closeLoadModalButton = document.getElementById('closeLoadModalButton');
+        const characterListUl = document.getElementById('characterList');
+        const saveErrorEl = document.getElementById('saveError');
+        const loadCharacterMessageEl = document.getElementById('loadCharacterMessage');
+        const importFileEl = document.getElementById('importFile'); 
+        const triggerImportButton = document.getElementById('triggerImportButton'); 
+
+        // --- Funciones ---
+        function updateCharacteristicsUI() { menteValueEl.textContent = characteristics.mente; cuerpoValueEl.textContent = characteristics.cuerpo; const currentTotal = characteristics.mente + characteristics.cuerpo; totalPointsEl.textContent = MAX_TOTAL_POINTS - currentTotal; menteMinusBtn.disabled = characteristics.mente <= 0; cuerpoMinusBtn.disabled = characteristics.cuerpo <= 0; mentePlusBtn.disabled = characteristics.mente >= MAX_STAT_POINTS || currentTotal >= MAX_TOTAL_POINTS; cuerpoPlusBtn.disabled = characteristics.cuerpo >= MAX_STAT_POINTS || currentTotal >= MAX_TOTAL_POINTS; pointsErrorEl.textContent = ''; if (characteristics.mente > MAX_STAT_POINTS) { pointsErrorEl.textContent = 'Máximo 5 puntos en MENTE.'; } else if (characteristics.cuerpo > MAX_STAT_POINTS) { pointsErrorEl.textContent = 'Máximo 5 puntos en CUERPO.'; } else if (currentTotal > MAX_TOTAL_POINTS) { pointsErrorEl.textContent = `Has usado ${currentTotal} puntos. Máximo ${MAX_TOTAL_POINTS}.`; } }
+        
+        function adjustValue(inputId, amount) { 
+            const input = document.getElementById(inputId); 
+            if (input) { 
+                let currentValue = parseInt(input.value, 10) || 0; 
+                let newValue = currentValue + amount; 
+                const min = parseInt(input.min, 10); 
+                if (!isNaN(min) && newValue < min) { 
+                    newValue = min; 
+                } 
+                input.value = newValue; 
+                input.dispatchEvent(new Event('change')); 
+                if (inputId === 'diasInput' && amount > 0) { 
+                    pistasTemporales.value = ""; 
+                    showSaveStatus("Nuevo día: Pistas temporales borradas.", "info", 3000);
+                    checkGestaMilestone(currentValue, newValue); 
+                } else if (inputId === 'diasInput') { 
+                     checkGestaMilestone(currentValue, newValue);
+                }
+            } 
+        }
+
+        [gestaInput, diasInput].forEach(input => { input.addEventListener('change', () => { const min = parseInt(input.min, 10); if (!isNaN(min) && parseInt(input.value, 10) < min) { input.value = min; } }); });
+        function checkGestaMilestone(oldDays, newDays) { const oldWeeks = Math.floor((oldDays - 1) / 7); const newWeeks = Math.floor((newDays - 1) / 7); if (newWeeks > oldWeeks) { const gestaToAdd = newWeeks - oldWeeks; adjustValue('gestaInput', gestaToAdd); showSaveStatus(`¡+${gestaToAdd} GESTA por ${gestaToAdd > 1 ? gestaToAdd + ' semanas completadas' : 'semana completada'}!`, 'info', 5000); } }
+        
+        function adjustTime(amount) { 
+            let currentTime = parseInt(tiempoValueEl.textContent, 10); 
+            currentTime += amount; 
+            if (currentTime > 23) { 
+                currentTime = 8; 
+                adjustValue('diasInput', 1); 
+            } else if (currentTime < 8) { 
+                currentTime = 8; 
+            } 
+            tiempoValueEl.textContent = currentTime; 
+        }
+        
+        function rollDice() { 
+            const result = Math.floor(Math.random() * 6) + 1; 
+            diceResultEl.textContent = result;
+            diceResultEl.style.display = 'flex'; 
+        }
+        
+        function updateVidaStyle() { const selectedVida = document.querySelector('input[name="vida"]:checked').value; vidaCard.classList.remove('vida-sano', 'vida-herido', 'vida-grave'); vidaCard.classList.add(`vida-${selectedVida}`); }
+
+        function renderWeapons() {
+            weaponsContainer.innerHTML = '';
+            weapons.forEach((weapon, index) => {
+                const weaponDiv = document.createElement('div');
+                weaponDiv.className = 'mb-2 p-3 border border-gray-700 rounded weapon-row grid grid-cols-1 sm:grid-cols-12 gap-2 items-center';
+                weaponDiv.innerHTML = `
+                    <input type="text" placeholder="Nombre del Arma" value="${weapon.nombre}" data-index="${index}" data-field="nombre" class="sm:col-span-5 bg-gray-800 border-gray-600">
+                    <input type="text" placeholder="Bonif." value="${weapon.bonificador}" data-index="${index}" data-field="bonificador" class="sm:col-span-2 bg-gray-800 border-gray-600">
+                    <select data-index="${index}" data-field="tipo" class="sm:col-span-4 bg-gray-800 border-gray-600 text-xs p-2 h-full">
+                        <option value="Cuerpo a Cuerpo" ${weapon.tipo === 'Cuerpo a Cuerpo' ? 'selected' : ''}>Cuerpo a Cuerpo</option>
+                        <option value="A Distancia" ${weapon.tipo === 'A Distancia' ? 'selected' : ''}>A Distancia (Tiroteo)</option>
+                    </select>
+                    <button class="remove-weapon-btn sm:col-span-1 justify-self-center" data-index="${index}" title="Eliminar Arma">&times;</button>
+                `;
+                weaponsContainer.appendChild(weaponDiv);
+            });
+            weaponsContainer.querySelectorAll('input, select').forEach(input => input.addEventListener('change', handleWeaponChange));
+            weaponsContainer.querySelectorAll('.remove-weapon-btn').forEach(button => button.addEventListener('click', handleRemoveWeapon));
+            addWeaponButton.disabled = weapons.length >= MAX_WEAPONS;
+        }
+        function handleAddWeapon() { if (weapons.length < MAX_WEAPONS) { weapons.push({ nombre: '', bonificador: '', tipo: 'Cuerpo a Cuerpo' }); renderWeapons(); } }
+        function handleWeaponChange(event) { const index = parseInt(event.target.dataset.index, 10); const field = event.target.dataset.field; if (index >= 0 && index < weapons.length) { weapons[index][field] = event.target.value; } }
+        function handleRemoveWeapon(event) { const index = parseInt(event.target.dataset.index, 10); if (index >= 0 && index < weapons.length) { weapons.splice(index, 1); renderWeapons(); } }
+
+        // --- Funciones de Guardado/Carga Multi-Personaje ---
+        function getCharacterList() {
+            const list = localStorage.getItem(CHARACTER_LIST_KEY);
+            if (list) {
+                const parsedList = JSON.parse(list);
+                if (Array.isArray(parsedList) && parsedList.length > 0 && typeof parsedList[0] === 'string') {
+                    const newList = parsedList.map(name => ({ name: name, lastModified: Date.now() }));
+                    saveCharacterList(newList);
+                    return newList;
+                }
+                return parsedList; 
+            }
+            return []; 
+        }
+
+        function saveCharacterList(list) {
+            list.sort((a, b) => b.lastModified - a.lastModified);
+            localStorage.setItem(CHARACTER_LIST_KEY, JSON.stringify(list));
+        }
+        function showSaveStatus(message, type = 'success', duration = 3000) { saveStatusEl.textContent = message; const typeClasses = { success: 'text-green-400', error: 'text-red-400', info: 'text-blue-400' }; saveStatusEl.className = `text-sm w-full text-center mt-2 font-semibold ${typeClasses[type] || 'text-gray-400'}`; if (saveStatusEl.timeoutId) clearTimeout(saveStatusEl.timeoutId); saveStatusEl.timeoutId = setTimeout(() => { saveStatusEl.textContent = ''; saveStatusEl.className = 'text-sm text-gray-400 w-full text-center mt-2'; saveStatusEl.timeoutId = null; }, duration); }
+        function updateCurrentCharacterDisplay() { if (currentCharacterName) { currentCharacterEl.textContent = `Personaje cargado: ${currentCharacterName}`; } else { currentCharacterEl.textContent = 'Ningún personaje cargado.'; } }
+        
+        function resetForm() { 
+            characteristics.mente = 0; characteristics.cuerpo = 0; 
+            updateCharacteristicsUI(); 
+            document.querySelector('input[name="vida"][value="sano"]').checked = true; 
+            updateVidaStyle(); 
+            gestaInput.value = 0; diasInput.value = 1; tiempoValueEl.textContent = 8; 
+            inventoryInput.value = ''; moneyInput.value = 0; 
+            pistasNormales.value = ''; pistasConfidenciales.value = ''; pistasTemporales.value = ''; 
+            notasTanisEl.value = ''; notasNorteEl.value = ''; notasSurEl.value = ''; 
+            notasMaleconEl.value = ''; notasArrabalesEl.value = ''; otrasNotas.value = ''; 
+            weapons = []; renderWeapons(); 
+            diceResultEl.textContent = ''; 
+            diceResultEl.style.display = 'none'; 
+            currentCharacterName = null; 
+            characterNameInput.value = ""; 
+            saveCharacterSelect.value = ""; 
+            updateCurrentCharacterDisplay(); 
+            showSaveStatus("Formulario reiniciado para nuevo personaje.", "info");
+        }
+
+        function openSaveModal() {
+            populateSaveCharacterSelect(); 
+            characterNameInput.value = currentCharacterName || ''; 
+            if (currentCharacterName) {
+                saveCharacterSelect.value = currentCharacterName; 
+            } else {
+                saveCharacterSelect.value = ""; 
+            }
+            saveErrorEl.textContent = ''; 
+            saveModal.style.display = 'block';
+            characterNameInput.focus();
+        }
+        function closeSaveModal() { saveModal.style.display = 'none'; }
+
+        function populateSaveCharacterSelect() {
+            const charList = getCharacterList(); 
+            saveCharacterSelect.innerHTML = '<option value="">-- Selecciona para sobrescribir --</option>'; 
+
+            charList.forEach(charObj => {
+                const option = document.createElement('option');
+                option.value = charObj.name;
+                option.textContent = charObj.name;
+                saveCharacterSelect.appendChild(option);
+            });
+        }
+        
+        saveCharacterSelect.addEventListener('change', () => {
+            if (saveCharacterSelect.value) {
+                characterNameInput.value = saveCharacterSelect.value; 
+            }
+        });
+
+        function getCurrentCharacterData(name) {
+            return {
+                name: name, 
+                lastModified: Date.now(), 
+                mente: characteristics.mente, cuerpo: characteristics.cuerpo,
+                vida: document.querySelector('input[name="vida"]:checked').value,
+                gesta: parseInt(gestaInput.value, 10) || 0, dias: parseInt(diasInput.value, 10) || 1,
+                tiempo: parseInt(tiempoValueEl.textContent, 10) || 8,
+                inventory: inventoryInput.value, money: parseInt(moneyInput.value, 10) || 0,
+                pistasNormales: pistasNormales.value, pistasConfidenciales: pistasConfidenciales.value, pistasTemporales: pistasTemporales.value,
+                notasTanis: notasTanisEl.value, notasNorte: notasNorteEl.value, notasSur: notasSurEl.value,
+                notasMalecon: notasMaleconEl.value, notasArrabales: notasArrabalesEl.value, otrasNotas: otrasNotas.value,
+                weapons: weapons
+            };
+        }
+
+        function confirmSave() {
+            let charNameToSave = characterNameInput.value.trim();
+            const selectedToOverwrite = saveCharacterSelect.value;
+            saveErrorEl.textContent = ''; 
+
+            if (selectedToOverwrite && !charNameToSave) { 
+                charNameToSave = selectedToOverwrite;
+            } else if (!charNameToSave && selectedToOverwrite) { 
+                 charNameToSave = selectedToOverwrite;
+            } else if (!charNameToSave && !selectedToOverwrite) { 
+                 saveErrorEl.textContent = 'El nombre del personaje no puede estar vacío.';
+                 return;
+            }
+            
+            const characterData = getCurrentCharacterData(charNameToSave); 
+            const { name, ...dataToStore } = characterData;
+            
+            try { 
+                localStorage.setItem(STORAGE_KEY_PREFIX + charNameToSave, JSON.stringify(dataToStore)); 
+                let charList = getCharacterList(); 
+                const existingCharIndex = charList.findIndex(c => c.name === charNameToSave);
+                
+                if (existingCharIndex > -1) { 
+                    charList[existingCharIndex].lastModified = dataToStore.lastModified;
+                } else { 
+                    charList.push({ name: charNameToSave, lastModified: dataToStore.lastModified });
+                }
+                saveCharacterList(charList); 
+
+                currentCharacterName = charNameToSave; 
+                updateCurrentCharacterDisplay(); 
+                showSaveStatus(`Personaje '${charNameToSave}' guardado en navegador.`, 'success'); 
+                closeSaveModal(); 
+            } catch (error) { console.error("Error al guardar:", error); saveErrorEl.textContent = 'Error al guardar en localStorage. ¿Espacio lleno?'; showSaveStatus(`Error al guardar el personaje '${charNameToSave}'.`, 'error'); } 
+        }
+
+        function exportCharacter() {
+            let charNameToExport = characterNameInput.value.trim();
+            const selectedToOverwrite = saveCharacterSelect.value; 
+
+            if (selectedToOverwrite && !charNameToExport) {
+                charNameToExport = selectedToOverwrite;
+            } else if (!charNameToExport && selectedToOverwrite) {
+                 charNameToExport = selectedToOverwrite;
+            }
+            
+            if (!charNameToExport) { 
+                charNameToExport = currentCharacterName || "personaje_el_bucle"; // Usar personaje actual o defecto
+            }
+
+            const characterDataToExport = getCurrentCharacterData(charNameToExport);
+            const jsonString = JSON.stringify(characterDataToExport, null, 2); 
+            const blob = new Blob([jsonString], { type: "application/json" });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${charNameToExport.replace(/\s+/g, '_')}.json`; 
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            showSaveStatus(`Personaje '${charNameToExport}' exportado.`, 'success');
+            closeSaveModal();
+        }
+
+        function handleImportFile(event) {
+            const file = event.target.files[0];
+            if (!file) {
+                return;
+            }
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const importedData = JSON.parse(e.target.result);
+                    
+                    if (!importedData || typeof importedData.mente === 'undefined' || typeof importedData.cuerpo === 'undefined' || !importedData.name) {
+                        showSaveStatus("Archivo JSON no válido o no contiene datos de personaje esperados.", "error", 5000);
+                        return;
+                    }
+
+                    const charName = importedData.name;
+                    const { name, ...dataToLoad } = importedData; 
+
+                    characteristics.mente = dataToLoad.mente || 0;
+                    characteristics.cuerpo = dataToLoad.cuerpo || 0;
+                    updateCharacteristicsUI();
+                    document.querySelector(`input[name="vida"][value="${dataToLoad.vida || 'sano'}"]`).checked = true;
+                    updateVidaStyle();
+                    gestaInput.value = dataToLoad.gesta || 0;
+                    diasInput.value = dataToLoad.dias || 1;
+                    tiempoValueEl.textContent = dataToLoad.tiempo || 8;
+                    inventoryInput.value = dataToLoad.inventory || '';
+                    moneyInput.value = dataToLoad.money || 0;
+                    pistasNormales.value = dataToLoad.pistasNormales || '';
+                    pistasConfidenciales.value = dataToLoad.pistasConfidenciales || '';
+                    pistasTemporales.value = dataToLoad.pistasTemporales || '';
+                    notasTanisEl.value = dataToLoad.notasTanis || '';
+                    notasNorteEl.value = dataToLoad.notasNorte || '';
+                    notasSurEl.value = dataToLoad.notasSur || '';
+                    notasMaleconEl.value = dataToLoad.notasMalecon || '';
+                    notasArrabalesEl.value = dataToLoad.notasArrabales || '';
+                    otrasNotas.value = dataToLoad.otrasNotas || '';
+                    weapons = dataToLoad.weapons || [];
+                    renderWeapons();
+
+                    localStorage.setItem(STORAGE_KEY_PREFIX + charName, JSON.stringify(dataToLoad));
+                    let charList = getCharacterList();
+                    const existingCharIndex = charList.findIndex(c => c.name === charName);
+                    const lastModified = dataToLoad.lastModified || Date.now();
+
+                    if (existingCharIndex > -1) {
+                        charList[existingCharIndex].lastModified = lastModified;
+                    } else {
+                        charList.push({ name: charName, lastModified: lastModified });
+                    }
+                    saveCharacterList(charList);
+
+                    currentCharacterName = charName;
+                    updateCurrentCharacterDisplay();
+                    showSaveStatus(`Personaje '${charName}' importado y cargado.`, 'success');
+                    closeLoadModal();
+                    populateCharacterList(); 
+                    populateSaveCharacterSelect(); 
+                    diceResultEl.textContent = ''; 
+                    diceResultEl.style.display = 'none';
+
+                } catch (err) {
+                    console.error("Error al importar archivo:", err);
+                    showSaveStatus("Error al leer el archivo JSON. Asegúrate de que el formato es correcto.", "error", 5000);
+                }
+            };
+            reader.readAsText(file);
+            importFileEl.value = ''; 
+        }
+
+
+        function openLoadModal() { populateCharacterList(); loadModal.style.display = 'block'; }
+        function closeLoadModal() { loadModal.style.display = 'none'; }
+        
+        function populateCharacterList() { 
+            const charList = getCharacterList(); 
+            characterListUl.innerHTML = ''; 
+            if (charList.length === 0) { loadCharacterMessageEl.textContent = 'No hay personajes guardados.'; return; } 
+            loadCharacterMessageEl.textContent = ''; 
+            charList.forEach(charObj => { 
+                const li = document.createElement('li'); 
+                li.innerHTML = `<span class="character-name">${charObj.name}</span><button class="delete-char-btn" data-name="${charObj.name}" title="Eliminar Personaje">&times;</button>`; 
+                li.querySelector('.character-name').addEventListener('click', () => loadCharacter(charObj.name)); 
+                li.querySelector('.delete-char-btn').addEventListener('click', (e) => { e.stopPropagation(); deleteCharacter(charObj.name); }); 
+                characterListUl.appendChild(li); 
+            }); 
+        }
+        function loadCharacter(charName) { try { const savedData = localStorage.getItem(STORAGE_KEY_PREFIX + charName); if (savedData) { const characterData = JSON.parse(savedData); characteristics.mente = characterData.mente || 0; characteristics.cuerpo = characterData.cuerpo || 0; updateCharacteristicsUI(); document.querySelector(`input[name="vida"][value="${characterData.vida || 'sano'}"]`).checked = true; updateVidaStyle(); gestaInput.value = characterData.gesta || 0; diasInput.value = characterData.dias || 1; tiempoValueEl.textContent = characterData.tiempo || 8; inventoryInput.value = characterData.inventory || ''; moneyInput.value = characterData.money || 0; pistasNormales.value = characterData.pistasNormales || ''; pistasConfidenciales.value = characterData.pistasConfidenciales || ''; pistasTemporales.value = characterData.pistasTemporales || ''; notasTanisEl.value = characterData.notasTanis || ''; notasNorteEl.value = characterData.notasNorte || ''; notasSurEl.value = characterData.notasSur || ''; notasMaleconEl.value = characterData.notasMalecon || ''; notasArrabalesEl.value = characterData.notasArrabales || ''; otrasNotas.value = characterData.otrasNotas || ''; weapons = characterData.weapons || []; renderWeapons(); currentCharacterName = charName; updateCurrentCharacterDisplay(); showSaveStatus(`Personaje '${charName}' cargado.`, 'success'); closeLoadModal(); diceResultEl.textContent = ''; diceResultEl.style.display = 'none'; } else { showSaveStatus(`No se encontraron datos para '${charName}'.`, 'error'); } } catch (error) { console.error("Error al cargar:", error); showSaveStatus(`Error al cargar el personaje '${charName}'.`, 'error'); } }
+        function deleteCharacter(charName) { if (confirm(`¿Estás seguro de que quieres eliminar al personaje '${charName}'? Esta acción no se puede deshacer.`)) { try { localStorage.removeItem(STORAGE_KEY_PREFIX + charName); let charList = getCharacterList(); charList = charList.filter(obj => obj.name !== charName); saveCharacterList(charList); if (currentCharacterName === charName) { resetForm(); } showSaveStatus(`Personaje '${charName}' eliminado.`, 'info'); populateCharacterList(); populateSaveCharacterSelect(); } catch (error) { console.error("Error al eliminar:", error); showSaveStatus(`Error al eliminar el personaje '${charName}'.`, 'error'); } } }
+
+        mentePlusBtn.addEventListener('click', () => { if (characteristics.mente < MAX_STAT_POINTS && (characteristics.mente + characteristics.cuerpo) < MAX_TOTAL_POINTS) { characteristics.mente++; updateCharacteristicsUI(); } });
+        menteMinusBtn.addEventListener('click', () => { if (characteristics.mente > 0) { characteristics.mente--; updateCharacteristicsUI(); } });
+        cuerpoPlusBtn.addEventListener('click', () => { if (characteristics.cuerpo < MAX_STAT_POINTS && (characteristics.mente + characteristics.cuerpo) < MAX_TOTAL_POINTS) { characteristics.cuerpo++; updateCharacteristicsUI(); } });
+        cuerpoMinusBtn.addEventListener('click', () => { if (characteristics.cuerpo > 0) { characteristics.cuerpo--; updateCharacteristicsUI(); } });
+        timePlusBtn.addEventListener('click', () => adjustTime(1));
+        timeMinusBtn.addEventListener('click', () => adjustTime(-1));
+        diceButton.addEventListener('click', rollDice);
+        vidaRadios.forEach(radio => radio.addEventListener('change', updateVidaStyle));
+        addWeaponButton.addEventListener('click', handleAddWeapon);
+        
+        newCharacterButton.addEventListener('click', resetForm); 
+        saveButton.addEventListener('click', openSaveModal);
+        loadButton.addEventListener('click', openLoadModal);
+        
+        confirmSaveButton.addEventListener('click', confirmSave);
+        exportCharacterButton.addEventListener('click', exportCharacter); 
+        cancelSaveButton.addEventListener('click', closeSaveModal);
+        closeLoadModalButton.addEventListener('click', closeLoadModal);
+
+        triggerImportButton.addEventListener('click', () => importFileEl.click()); 
+        importFileEl.addEventListener('change', handleImportFile); 
+
+        window.addEventListener('click', (event) => { if (event.target == saveModal) { closeSaveModal(); } if (event.target == loadModal) { closeLoadModal(); } });
+
+        resetForm();
+        updateCurrentCharacterDisplay();
+
+    </script>
+
+</body>
+</html>
