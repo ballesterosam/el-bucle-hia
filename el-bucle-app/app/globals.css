@@ -1,0 +1,292 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Orbitron:wght@700&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom styles from original index.html */
+body {
+    /* Corrected body styles */
+    font-family: 'Inter', sans-serif;
+    background-color: #0c0c0f;
+    color: #e0e0e0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.main-content-area {
+    flex-grow: 1;
+}
+
+.main-title {
+    font-family: 'Orbitron', sans-serif;
+    color: #00f9ff;
+    text-shadow: 0 0 5px #00f9ff, 0 0 10px #00f9ff, 0 0 15px #00f9ff;
+    font-size: 2.5rem;
+    letter-spacing: 0.1em;
+    margin-bottom: 1.5rem;
+}
+
+@media (min-width: 768px) {
+    .main-title {
+        font-size: 3.5rem;
+    }
+}
+
+.card {
+    background-color: rgba(10, 25, 47, 0.8);
+    border: 1px solid #00f9ff;
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 0 15px rgba(0, 249, 255, 0.3), 0 0 5px rgba(0, 249, 255, 0.5) inset;
+}
+
+.card-title {
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+    color: #00f9ff;
+    font-size: 1.5rem;
+    margin-bottom: 1.25rem;
+    border-bottom: 2px solid #00f9ff;
+    padding-bottom: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+    color: #c0c0c0;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 0.05em;
+}
+
+input[type="number"],
+input[type="text"],
+select {
+    background-color: rgba(0, 0, 0, 0.5);
+    border: 1px solid #007c80;
+    color: #e0e0e0;
+    padding: 0.75rem;
+    border-radius: 0.375rem;
+    width: 100%;
+    margin-bottom: 1rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+textarea {
+    background-color: rgba(0, 0, 0, 0.5);
+    border: 1px solid #007c80;
+    color: #e0e0e0;
+    padding: 0.5rem !important;
+    border-radius: 0.375rem;
+    width: 100%;
+    margin-bottom: 1rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    line-height: 1.6;
+}
+
+input[type="number"]:focus,
+input[type="text"]:focus,
+textarea:focus,
+select:focus {
+    outline: none;
+    border-color: #00f9ff;
+    box-shadow: 0 0 8px rgba(0, 249, 255, 0.5);
+}
+
+/* Main Button Styles (in footer-actions) */
+.footer-actions button {
+    background-color: #00f9ff;
+    color: #0c0c0f;
+    padding: 0.85rem 1.75rem;
+    border-radius: 0.375rem;
+    border: 2px solid #00f9ff;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease, transform 0.1s ease;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin: 0.25rem;
+    box-shadow: 0 0 8px rgba(0, 249, 255, 0.5), 0 0 15px rgba(0, 249, 255, 0.3);
+}
+
+.footer-actions button:hover {
+    background-color: #00c7cc;
+    color: #000000;
+    box-shadow: 0 0 12px rgba(0, 249, 255, 0.7), 0 0 25px rgba(0, 249, 255, 0.5);
+    transform: translateY(-1px);
+}
+
+/* Add Weapon Button */
+#addWeaponButton {
+   background-color: #00f9ff; color: #0c0c0f; padding: 0.7rem 1.5rem; border-radius: 0.375rem;
+   border: 2px solid #00f9ff; cursor: pointer; transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease, transform 0.1s ease;
+   font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin: 0.25rem;
+   box-shadow: 0 0 8px rgba(0, 249, 255, 0.5), 0 0 15px rgba(0, 249, 255, 0.3);
+   font-size: 0.9rem;
+}
+#addWeaponButton:hover {
+   background-color: #00c7cc; color: #000000;
+   box-shadow: 0 0 12px rgba(0, 249, 255, 0.7), 0 0 25px rgba(0, 249, 255, 0.5);
+   transform: translateY(-1px);
+}
+#addWeaponButton:disabled {
+   opacity: 0.6; cursor: not-allowed; background-color: #007c80;
+   color: #a0a0a0; box-shadow: none; transform: none;
+}
+
+/* Dice Button Style */
+#diceButton {
+    background-color: #00f9ff;
+    color: #0c0c0f;
+    padding: 0.7rem 1.5rem;
+    border-radius: 0.375rem;
+    border: 2px solid #00f9ff;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease, transform 0.1s ease;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    box-shadow: 0 0 8px rgba(0, 249, 255, 0.5), 0 0 15px rgba(0, 249, 255, 0.3);
+    width: auto;
+    align-self: center;
+}
+
+#diceButton:hover {
+     background-color: #00c7cc;
+    color: #000000;
+    box-shadow: 0 0 12px rgba(0, 249, 255, 0.7), 0 0 25px rgba(0, 249, 255, 0.5);
+    transform: translateY(-1px);
+}
+
+/* Dice Result Style */
+.dice-result {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2.8rem;
+    font-weight: 700;
+    color: #4B0082;
+    background-color: #FADADD;
+    border: 3px solid #FADADD;
+    border-radius: 0.6rem;
+    width: 5rem;
+    height: 5rem;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    text-shadow: none;
+    margin-top: 0.75rem;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.15), 0 0 10px rgba(250, 218, 221, 0.4) inset, 0 0 8px rgba(250, 218, 221, 0.6);
+    min-height: 5rem;
+}
+
+/* Other Buttons (Stats, Remove Weapon) */
+.control {
+    height: 6rem;
+    padding-bottom: 1em;
+}
+.stat-control button {
+    background-color: transparent; color: #00f9ff; width: 2.5rem; height: 2.5rem; padding: 0;
+    line-height: 2.5rem; font-size: 1.5rem; border: 1px solid #00f9ff; border-radius: 0.375rem;
+    transition: background-color 0.3s ease, color 0.3s ease, opacity 0.3s ease;
+}
+.stat-control button:hover:not(:disabled) {
+     background-color: rgba(0, 249, 255, 0.2); color: #ffffff;
+}
+.stat-control button:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.remove-weapon-btn {
+    background: transparent !important; border: none !important; color: #ff4d4d !important;
+    font-size: 1.5rem !important; padding: 0 0.5rem !important; box-shadow: none !important;
+    line-height: 1; transition: color 0.3s ease;
+}
+.remove-weapon-btn:hover { color: #ff0000 !important; background: transparent !important; }
+
+/* Life Radio Buttons */
+.radio-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+.radio-group label {
+    display: inline-flex; align-items: center; margin-right: 0; font-weight: normal;
+    cursor: pointer; color: #c0c0c0; text-transform: none; font-size: 0.9rem;
+}
+.radio-group input[type="radio"] {
+   accent-color: #00f9ff; margin-right: 0.5rem; width: 1.2em;
+   height: 1.2em; vertical-align: middle;
+}
+
+/* Modal Styles */
+.modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.7); padding-top: 60px; }
+.modal-content { background-color: #0a192f; margin: 5% auto; padding: 25px; border: 1px solid #00f9ff; border-radius: 0.75rem; width: 80%; max-width: 500px; box-shadow: 0 0 25px rgba(0, 249, 255, 0.4); color: #e0e0e0; }
+.modal-content h2 { color: #00f9ff; font-family: 'Orbitron', sans-serif; text-align: center; margin-bottom: 1.5rem; font-size: 1.8rem; }
+.modal-content label { font-size: 0.9rem; color: #00f9ff; }
+.modal-content input[type="text"], .modal-content select { margin-bottom: 1.5rem; }
+.modal-buttons { display: flex; flex-direction: column; /* Apilar botones en el modal */ align-items: stretch; /* Estirar botones al ancho completo */ gap: 0.75rem; margin-top: 1.5rem; }
+.modal-buttons button { background-color: #00f9ff; color: #0c0c0f; padding: 0.7rem 1.5rem; border-radius: 0.375rem; border: 2px solid #00f9ff; cursor: pointer; transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease, transform 0.1s ease; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; box-shadow: 0 0 8px rgba(0, 249, 255, 0.5); width: 100%; /* Hacer que los botones ocupen todo el ancho */ }
+.modal-buttons button:hover { background-color: #00c7cc; color: #000000; box-shadow: 0 0 12px rgba(0, 249, 255, 0.7); transform: translateY(-1px); }
+.modal-buttons .cancel-button { background-color: transparent; color: #ff4d4d; border-color: #ff4d4d; box-shadow: 0 0 8px rgba(255, 77, 77, 0.5); }
+.modal-buttons .cancel-button:hover { background-color: #ff4d4d; color: #0c0c0f; border-color: #ff4d4d; box-shadow: 0 0 12px rgba(255, 77, 77, 0.7); }
+.modal-buttons .export-button { background-color: transparent; color: #34d399; border-color: #34d399; box-shadow: 0 0 8px rgba(52, 211, 153, 0.5); }
+.modal-buttons .export-button:hover { background-color: #34d399; color: #0c0c0f; border-color: #34d399; box-shadow: 0 0 12px rgba(52, 211, 153, 0.7); }
+
+#characterList, #saveCharacterSelect { list-style: none; padding: 0; max-height: 200px; overflow-y: auto; border: 1px solid #007c80; border-radius: 0.375rem; margin-bottom: 1.5rem; background-color: rgba(0,0,0,0.3); }
+#characterList li, #saveCharacterSelect option { padding: 0.8rem 1rem; border-bottom: 1px solid #007c80; }
+#characterList li {display: flex; justify-content: space-between; align-items: center; cursor: pointer; transition: background-color 0.2s ease; }
+#characterList li:last-child, #saveCharacterSelect option:last-child { border-bottom: none; }
+#characterList li:hover, #saveCharacterSelect option:hover { background-color: rgba(0, 249, 255, 0.1); }
+#characterList .character-name { font-weight: bold; color: #ffffff; }
+#characterList .delete-char-btn { background: none; border: none; color: #ff4d4d; font-size: 1.2rem; cursor: pointer; padding: 0 0.5rem; transition: color 0.2s ease; }
+#characterList .delete-char-btn:hover { color: #ff0000; }
+#loadCharacterMessage { text-align: center; color: #c0c0c0; margin-top: 1rem; }
+
+#saveCharacterSelect {
+    width: 100%;
+    padding: 0.75rem;
+    background-color: rgba(0, 0, 0, 0.5);
+    border: 1px solid #007c80;
+    color: #e0e0e0;
+    border-radius: 0.375rem;
+}
+#saveCharacterSelect option {
+     background-color: #0a192f;
+     color: #e0e0e0;
+     padding: 0.5rem 1rem;
+}
+
+#importFile { display: none; }
+
+/* Rest of Styles (without changes) */
+.stat-value { font-size: 1.75rem; font-weight: 700; min-width: 3.5rem; text-align: center; color: #ffffff; background-color: rgba(0,0,0,0.3); padding: 0.25rem 0.5rem; border-radius: 0.25rem; }
+#tiempoValue { color: #ffffff; font-size: 1.75rem; font-weight: 700; }
+.weapon-row input, .weapon-row select { margin-bottom: 0.5rem; }
+.vida-sano { border-left: 5px solid #00f9ff; box-shadow: 0 0 10px rgba(0, 249, 255, 0.4) inset; }
+.vida-herido { border-left: 5px solid #ffd700; box-shadow: 0 0 10px rgba(255, 215, 0, 0.4) inset; }
+.vida-grave { border-left: 5px solid #ff4d4d; box-shadow: 0 0 10px rgba(255, 77, 77, 0.4) inset; }
+.grid-container { display: grid; gap: 1.5rem; grid-template-columns: repeat(1, minmax(0, 1fr)); }
+@media (min-width: 768px) { .grid-container { grid-template-columns: repeat(2, minmax(0, 1fr)); } .md\:col-span-2 { grid-column: span 2 / span 2; } }
+@media (min-width: 1024px) { .grid-container { grid-template-columns: repeat(3, minmax(0, 1fr)); } .lg\:col-span-1 { grid-column: span 1 / span 1; } .lg\:col-span-2 { grid-column: span 2 / span 2; } .lg\:col-span-3 { grid-column: span 3 / span 3; } }
+.notes-grid-container { display: grid; gap: 1.5rem; grid-template-columns: repeat(1, minmax(0, 1fr)); }
+@media (min-width: 768px) { .notes-grid-container { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 1024px) { .notes-grid-container { grid-template-columns: repeat(3, minmax(0, 1fr)); } .notes-grid-container .lg\:col-span-3 { grid-column: span 3 / span 3; } }
+#saveStatus { font-weight: bold; letter-spacing: 0.05em; }
+.text-green-400 { color: #34d399; text-shadow: 0 0 3px #34d399;}
+.text-red-400 { color: #f87171; text-shadow: 0 0 3px #f87171;}
+.text-blue-400 { color: #60a5fa; text-shadow: 0 0 3px #60a5fa;}
+
+.text-xs-custom {
+    font-size: 0.75rem !important;
+}
+
+/* Footer for main buttons */
+.footer-actions {
+    background-color: rgba(10, 25, 47, 0.95);
+    border-top: 2px solid #00f9ff;
+    padding: 1.5rem;
+    margin-top: auto;
+    box-shadow: 0 -5px 20px rgba(0, 249, 255, 0.25);
+}
