@@ -9,7 +9,7 @@ export default function Inventory() {
   };
 
   return (
-    <div className="mb-6">
+    <div>
       <h3 className="text-lg font-semibold mb-2">Inventario</h3>
       <textarea id="inventory" className="w-full p-2 rounded bg-gray-800 text-white border border-gray-700" rows="4" value={characterData.inventory} onChange={handleInventoryChange}></textarea>
     </div>

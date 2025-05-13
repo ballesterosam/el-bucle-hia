@@ -8,7 +8,6 @@ export default function Vida() {
  updateCharacter({ life: event.target.value });
   };
 
-  // Determine the class for the card based on the life state for styling
   let cardClass = 'card lg:col-span-1';
   if (characterData.life === 'Herido') {
  cardClass += ' vida-herido';

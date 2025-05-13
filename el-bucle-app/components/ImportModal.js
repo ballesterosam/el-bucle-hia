@@ -6,9 +6,9 @@ export default function ImportModal({ isVisible, onClose, onImport }) {
   const handleImportClick = () => {
     if (jsonString) {
       onImport(jsonString);
-      setJsonString(''); // Clear textarea after importing
+      setJsonString(''); 
     }
-    onClose(); // Close modal after importing or if no data
+    onClose();
   };
 
   if (!isVisible) {

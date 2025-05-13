@@ -10,13 +10,21 @@ export const CharacterProvider = ({ children }) => {
     mente: 0,
     cuerpo: 0,
     life: 'Sano',
-    gesta: 0, // Changed to number, initialized to 0
-    diasBucle: 0, // Added new field
-    tiempoHora: 8, // Initialize tiempoHora to 8
+    gesta: 0,
+    diasBucle: 0, 
+    tiempoHora: 8, 
     inventory: '',
-    money: '',
-    pistas: '',
+    money: 0,
+    pistasNormales: '', 
+    pistasConfidenciales: '',
+    pistasTemporales: '', 
     notes: '',
+    notasTanis: '',
+    otrasNotas: '',
+    notasNorte: '',
+    notasSur: '',
+    notasMalecon: '',
+    notasArrabales: '',
     weapons: []
   });
 
@@ -30,98 +38,135 @@ export const CharacterProvider = ({ children }) => {
       return;
     }
     const key = `character_${characterName}`;
-    localStorage.setItem(key, JSON.stringify(characterData));
+    const dataToSave = {
+ ...characterData,
+ lastModified: new Date().toISOString(), 
+    };
+ localStorage.setItem(key, JSON.stringify(dataToSave));
     console.log(`Character ${characterName} saved successfully.`);
   };
 
   const loadCharacter = (characterName) => {
-    if (characterName === null) { // Handle loading a new character
+    if (characterName === null) { 
+      console.log('Resetting character state to default values.');
       setCharacterData({
         name: '',
         mente: 0,
         cuerpo: 0,
-        life: 'Sano', // Reset life to 'Sano' for new character
-        gesta: 0, // Initialize gesta to 0 for new character
-        diasBucle: 0, // Initialize diasBucle to 0 for new character
-        tiempoHora: 8, // Initialize tiempoHora to 8 for new character
+        life: 'Sano', 
+        gesta: 0, 
+        diasBucle: 0, 
+        tiempoHora: 8,
         inventory: '',
-        money: '',
-        pistas: '',
+        money: 0,
+        pistasNormales: '', 
+        pistasConfidenciales: '', 
+        pistasTemporales: '', 
+        notasTanis: '', 
+        notasNorte: '', 
+        notasSur: '', 
+        notasMalecon: '', 
+        notasArrabales: '', 
         weapons: []
       });
-       console.log('Loading new character.');
-      console.error('Character name is required to load.');
       return;
     }
     const key = `character_${characterName}`;
     const savedData = localStorage.getItem(key);
     if (savedData) {
       const parsedData = JSON.parse(savedData);
-      // Ensure life is a string and numerical fields are numbers when loading old data
       if (typeof parsedData.life === 'number') {
-          parsedData.life = 'Sano'; // Default to Sano if old data had a number
+          parsedData.life = 'Sano'; 
       } else if (typeof parsedData.life !== 'string') {
-           parsedData.life = 'Sano'; // Default to Sano if data is not a string either
+           parsedData.life = 'Sano'; 
       }
-      // Ensure numerical fields are numbers, default to 0 if undefined or not a number
+
       parsedData.gesta = typeof parsedData.gesta === 'number' ? parsedData.gesta : 0;
       parsedData.diasBucle = typeof parsedData.diasBucle === 'number' ? parsedData.diasBucle : 0;
       parsedData.tiempoHora = typeof parsedData.tiempoHora === 'number' ? parsedData.tiempoHora : 0;
+      parsedData.pistasNormales = parsedData.pistasNormales || '';
+      parsedData.pistasConfidenciales = parsedData.pistasConfidenciales || '';
+      parsedData.pistasTemporales = parsedData.pistasTemporales || '';
+      parsedData.notasTanis = parsedData.notasTanis || '';
+      parsedData.notasNorte = parsedData.notasNorte || '';
+      parsedData.notasSur = parsedData.notasSur || '';
+      parsedData.notasMalecon = parsedData.notasMalecon || '';
+      parsedData.money = typeof parsedData.money === 'number' ? parsedData.money : 0;
       setCharacterData(parsedData);
       console.log(`Character ${characterName} loaded successfully.`);
-    } else { // Handle case where saved data is not found
-      // Optionally reset to default or show an error to the user, or simply log
-      // If you want to load a new character when not found, uncomment the lines below
-      // loadCharacter(null);
+    } else { 
       console.error(`Character ${characterName} not found.`);
-      // Optionally reset to default or show an error to the user
     }
   };
 
   const getSavedCharacters = () => {
-    const characterKeys = [];
+    const savedCharactersList = [];
     for (let i = 0; i < localStorage.length; i++) {
       const key = localStorage.key(i);
       if (key.startsWith('character_')) {
-        characterKeys.push(key.replace('character_', ''));
+        const savedData = localStorage.getItem(key);
+        if (savedData) {
+          try {
+            const parsedData = JSON.parse(savedData);
+            const characterName = key.replace('character_', '');
+            savedCharactersList.push({ name: characterName, lastModified: parsedData.lastModified || new Date().toISOString() });
+          } catch (error) {
+            console.error(`Error parsing character data for key ${key}:`, error);
+          }
+        }
       }
     }
-    return characterKeys;
+ return savedCharactersList;
   };
 
   const exportCharacter = () => {
-    return JSON.stringify(characterData, null, 2); // null, 2 for pretty printing
+    return JSON.stringify(characterData, null, 2);
   };
 
   const importCharacter = (jsonString) => {
     try {
-      const importedData = JSON.parse(jsonString);
-      // Basic validation (check for required fields)
-       if (importedData && typeof importedData === 'object' && importedData.name !== undefined) { // Ensure imported data is an object and has a name
-         // Ensure life is a string after import
+      const importedData = JSON.parse(jsonString);  
+       if (importedData && typeof importedData === 'object' && importedData.name !== undefined) {
          if (typeof importedData.life === 'number') {
-             importedData.life = 'Sano'; // Default to Sano if imported data had a number
+             importedData.life = 'Sano'; 
          } else if (typeof importedData.life !== 'string') {
-             importedData.life = 'Sano'; // Default to Sano if data is not a string either
+             importedData.life = 'Sano'; 
          }
-         // Ensure numerical fields are numbers after import, default to 0 if undefined or not a number
+         
          importedData.gesta = typeof importedData.gesta === 'number' ? importedData.gesta : 0;
          importedData.diasBucle = typeof importedData.diasBucle === 'number' ? importedData.diasBucle : 0;
          importedData.tiempoHora = typeof importedData.tiempoHora === 'number' ? importedData.tiempoHora : 0;
+         importedData.pistasNormales = importedData.pistasNormales || '';
+         importedData.pistasConfidenciales = importedData.pistasConfidenciales || '';
+         importedData.pistasTemporales = importedData.pistasTemporales || '';
+         importedData.notasTanis = importedData.notasTanis || '';
+         importedData.notasNorte = importedData.notasNorte || '';
+         importedData.notasSur = importedData.notasSur || '';
+         importedData.notasMalecon = importedData.notasMalecon || '';
+         importedData.money = typeof importedData.money === 'number' ? importedData.money : 0;
+
         setCharacterData(importedData);
         console.log('Character imported successfully.');
        } else {
         console.error('Invalid character data format.');
-        // Optionally show an error to the user
       }
     } catch (error) {
       console.error('Failed to parse JSON string:', error);
-      // Optionally show an error to the user
     }
   };
 
+  const deleteCharacter = (characterName) => {
+    if (!characterName) {
+      console.error('Character name is required to delete.');
+ return;
+    }
+    const key = `character_${characterName}`;
+    localStorage.removeItem(key);
+    console.log(`Character ${characterName} deleted successfully.`);
+  };
+
   return (
-    <CharacterContext.Provider value={{ characterData, updateCharacter, saveCharacter, loadCharacter, getSavedCharacters, exportCharacter, importCharacter }}>
+    <CharacterContext.Provider value={{ characterData, updateCharacter, saveCharacter, loadCharacter, getSavedCharacters, exportCharacter, importCharacter, deleteCharacter }}>
       {children}
     </CharacterContext.Provider>
   );

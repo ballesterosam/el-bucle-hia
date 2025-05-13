@@ -13,7 +13,6 @@ export default function ExportModal({ isVisible, onClose, jsonData }) {
     if (textareaRef.current) {
       textareaRef.current.select();
       document.execCommand('copy');
-      // Optionally provide user feedback (e.g., a tooltip or message)
     }
   };
 

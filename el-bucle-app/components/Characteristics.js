@@ -8,7 +8,7 @@ export default function Characteristics() {
   const { characterData, updateCharacter } = useCharacter();
   const [diceResult, setDiceResult] = useState(null);
   const [showDiceResult, setShowDiceResult] = useState(false);
-  const [pointsError, setPointsError] = useState(''); // Keep local error state
+  const [pointsError, setPointsError] = useState('');
 
   const totalPoints = characterData.mente + characterData.cuerpo;
   const remainingPoints = MAX_TOTAL_POINTS - totalPoints;
@@ -26,7 +26,7 @@ export default function Characteristics() {
     const newTotalPoints = newMente + newCuerpo;
 
     if (newMente < 0 || newCuerpo < 0) {
-        return; // Prevent going below zero
+        return;
     }
 
     if (newMente > MAX_STAT_POINTS) {
@@ -44,7 +44,6 @@ export default function Characteristics() {
         return;
     }
 
-    // If all checks pass, update state and clear error
     updateCharacter({ mente: newMente, cuerpo: newCuerpo });
     setPointsError('');
   };

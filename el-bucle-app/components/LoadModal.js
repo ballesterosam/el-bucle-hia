@@ -1,27 +1,45 @@
 import React, { useState, useEffect } from 'react';
 import { useCharacter } from '../context/CharacterContext';
 
-export default function LoadModal({ isVisible, onClose, onLoad }) {
-  const { getSavedCharacters } = useCharacter();
+export default function LoadModal({ isVisible, onClose, onLoad, onImport }) {
+  const { getSavedCharacters, deleteCharacter, importCharacter } = useCharacter();
   const [savedCharacters, setSavedCharacters] = useState([]);
-  const [selectedCharacter, setSelectedCharacter] = useState(null);
 
   useEffect(() => {
     if (isVisible) {
-      setSavedCharacters(getSavedCharacters());
+      const characters = getSavedCharacters();
+      setSavedCharacters(characters.sort((a, b) => b.lastModified.localeCompare(a.lastModified)));
     }
   }, [isVisible, getSavedCharacters]);
 
-  const handleLoadClick = () => {
-    if (selectedCharacter) {
-      onLoad(selectedCharacter);
+  const handleDeleteClick = (characterName) => {
+    if (window.confirm(`¿Estás seguro de que quieres borrar a ${characterName}?`)) {
+      deleteCharacter(characterName);
+      setSavedCharacters(getSavedCharacters());
     }
-    onClose();
+  }
+
+  const handleImportClick = () => {
+    document.getElementById('importFile').click();
   };
 
-  const handleNewCharacterClick = () => {
-    onLoad(null); // Indicate loading a new character
-    onClose();
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        try {
+          importCharacter(e.target.result);
+          onClose(); 
+        } catch (error) {
+          console.error('Error importing character:', error);
+        }
+      };
+      reader.onerror = (error) => {
+        console.error('Error reading file:', error);
+      };
+      reader.readAsText(file); 
+    }
   };
 
   if (!isVisible) {
@@ -35,8 +53,11 @@ export default function LoadModal({ isVisible, onClose, onLoad }) {
         {savedCharacters.length > 0 ? (
           <ul>
             {savedCharacters.map(name => (
-              <li key={name} className={`p-2 cursor-pointer ${selectedCharacter === name ? 'bg-gray-700' : 'hover:bg-gray-700'}`} onClick={() => setSelectedCharacter(name)}>
-                {name}
+              <li key={name.name} className="py-2 bg-gray-800 border-b border-cyan-400"> 
+                <div className="flex justify-between items-center cursor-pointer px-4" onClick={() => { onLoad(name.name); onClose(); }}>
+                  <span className="text-white font-bold">{name.name}</span> 
+                  <button onClick={(e) => { e.stopPropagation(); handleDeleteClick(name.name); }} className="text-red-500 hover:text-red-700 ml-4 cursor-pointer">&times;</button>
+                </div>
               </li>
             ))}
           </ul>
@@ -44,10 +65,11 @@ export default function LoadModal({ isVisible, onClose, onLoad }) {
           <p>No hay personajes guardados.</p>
         )}
 
-        <div className="flex justify-end gap-4 mt-4">
-          <button onClick={handleNewCharacterClick} className="py-2 px-4 rounded bg-blue-600 hover:bg-blue-700 text-white">Nuevo Personaje</button>
-          <button onClick={handleLoadClick} disabled={!selectedCharacter} className={`py-2 px-4 rounded ${selectedCharacter ? 'bg-green-600 hover:bg-green-700' : 'bg-gray-500 cursor-not-allowed'} text-white`}>Cargar</button>
-           <button onClick={onClose} className="py-2 px-4 rounded bg-gray-600 hover:bg-gray-700 text-white">Cancelar</button>
+        <input type="file" id="importFile" className="hidden" onChange={handleFileChange} accept=".json" />
+
+        <div className="flex flex-col gap-3 mt-4">      
+          <button onClick={handleImportClick} className="w-full py-3 rounded bg-transparent border border-green-600 text-green-600 font-bold text-lg hover:bg-green-600 hover:text-gray-900">IMPORTAR DESDE FICHERO</button> 
+          <button onClick={onClose} className="w-full py-3 rounded bg-transparent border border-red-500 text-red-500 font-bold text-lg hover:bg-red-500 hover:text-white">CANCELAR</button>
         </div>
       </div>
     </div>
