@@ -198,7 +198,6 @@ export const CharacterProvider = ({ children }) => {
       try {
         const parsedData = JSON.parse(savedData);
 
-        // Apply similar validation/migration logic as in the regular loadCharacter function
         if (typeof parsedData.life === 'number') {
             parsedData.life = 'Sano';
         } else if (typeof parsedData.life !== 'string') {
@@ -214,7 +213,6 @@ export const CharacterProvider = ({ children }) => {
         parsedData.notasNorte = parsedData.notasNorte || '';
         parsedData.notasSur = parsedData.notasSur || '';
         parsedData.notasMalecon = parsedData.notasMalecon || '';
-        // Ensure money is treated as a number
         if (parsedData.money !== undefined && typeof parsedData.money !== 'number') {
             const numMoney = Number(parsedData.money);
             parsedData.money = !isNaN(numMoney) ? numMoney : 0;
@@ -238,7 +236,6 @@ export const CharacterProvider = ({ children }) => {
       // Optionally exclude fields like lastModified if not needed in autosave
       const { lastModified, ...dataToAutosave } = characterData;
       localStorage.setItem('autosave_character', JSON.stringify(dataToAutosave));
-      console.log('Autosave updated.');
     } catch (error) {
       console.error('Error saving autosave:', error);
     }
