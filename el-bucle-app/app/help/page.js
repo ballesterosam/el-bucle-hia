@@ -28,7 +28,7 @@ const HelpPage = () => {
                 <p className="text-justify mb-4">Es importante tener en cuenta que <strong>los datos de tu personaje se almacenan localmente</strong> en el navegador o dispositivo que estás utilizando. Esto significa que tu información permanece privada en tu equipo.</p>
                 <p className="text-justify mb-4">Sin embargo, no regalar tus datos personales siempre tiene un riesgo. Debido a este método de almacenamiento local, hay un aspecto crucial a considerar: si cambias de dispositivo, utilizas un navegador diferente, o borras la caché y los datos de navegación de tu navegador actual, <strong>perderás la información de tu personaje</strong> a menos que la hayas guardado explícitamente utilizando la función de exportar.</p>
                 <p className="text-justify mb-4">Para evitar la pérdida de datos y poder acceder a tus personajes desde diferentes lugares o como copia de seguridad, <strong>te recomendaría encarecidamente exportar la información de tu personaje de vez en cuando</strong> utilizando la opción de <strong>Exportar a un fichero</strong>, pero claro, ¿quién soy yo para recomendarte nada, si ni siquiera te conozco. Aún así, esto te permitirá importar tu personaje en otro momento o en otro dispositivo si es necesario.</p>
-                <p className="text-justify">Utiliza los botones en la parte inferior del formulario para "Nuevo Personaje", "Cargar Personaje" y "Guardar Personaje" para gestionar tus creaciones.</p>
+                <p className="text-justify mb-4">Utiliza los botones en la parte inferior del formulario para "Nuevo Personaje", "Cargar Personaje" y "Guardar Personaje" para gestionar tus creaciones.</p>
               </div>
             </div>
         </div>

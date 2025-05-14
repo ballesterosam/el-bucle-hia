@@ -1,4 +1,4 @@
-import React, { createContext, useState, useContext } from 'react';
+import React, { createContext, useState, useContext, useEffect } from 'react';
 
 const CharacterContext = createContext();
 
@@ -29,7 +29,24 @@ export const CharacterProvider = ({ children }) => {
   });
 
   const updateCharacter = (newData) => {
-    setCharacterData(prevData => ({ ...prevData, ...newData }));
+    setCharacterData(prevData => ({
+      ...prevData,
+      ...newData,
+      gesta: (() => {
+        if (newData.diasBucle === undefined) {
+          return newData.gesta !== undefined ? newData.gesta : prevData.gesta;
+        }
+
+        const prevDias = prevData.diasBucle;
+        const newDias = newData.diasBucle;
+
+        if (prevDias % 7 === 0 && newDias > 7 && newDias > prevDias) {
+          return prevData.gesta + 1;
+        }
+
+        return newData.gesta !== undefined ? newData.gesta : prevData.gesta;
+      })()
+    }));
   };
 
   const saveCharacter = (characterName) => {
@@ -91,7 +108,11 @@ export const CharacterProvider = ({ children }) => {
       parsedData.notasNorte = parsedData.notasNorte || '';
       parsedData.notasSur = parsedData.notasSur || '';
       parsedData.notasMalecon = parsedData.notasMalecon || '';
-      parsedData.money = typeof parsedData.money === 'number' ? parsedData.money : 0;
+      // Ensure money is treated as a number
+      if (parsedData.money !== undefined && typeof parsedData.money !== 'number') {
+          const numMoney = Number(parsedData.money);
+          parsedData.money = !isNaN(numMoney) ? numMoney : 0;
+      } else if (parsedData.money === undefined) { parsedData.money = 0; }
       setCharacterData(parsedData);
       console.log(`Character ${characterName} loaded successfully.`);
     } else { 
@@ -143,7 +164,11 @@ export const CharacterProvider = ({ children }) => {
          importedData.notasNorte = importedData.notasNorte || '';
          importedData.notasSur = importedData.notasSur || '';
          importedData.notasMalecon = importedData.notasMalecon || '';
-         importedData.money = typeof importedData.money === 'number' ? importedData.money : 0;
+         // Ensure money is treated as a number
+         if (importedData.money !== undefined && typeof importedData.money !== 'number') {
+             const numMoney = Number(importedData.money);
+             importedData.money = !isNaN(numMoney) ? numMoney : 0;
+         } else if (importedData.money === undefined) { importedData.money = 0; }
 
         setCharacterData(importedData);
         console.log('Character imported successfully.');
@@ -164,6 +189,60 @@ export const CharacterProvider = ({ children }) => {
     localStorage.removeItem(key);
     console.log(`Character ${characterName} deleted successfully.`);
   };
+
+  // Effect to load autosave on mount
+  useEffect(() => {
+    console.log('Attempting to load autosave...');
+    const savedData = localStorage.getItem('autosave_character');
+    if (savedData) {
+      try {
+        const parsedData = JSON.parse(savedData);
+
+        // Apply similar validation/migration logic as in the regular loadCharacter function
+        if (typeof parsedData.life === 'number') {
+            parsedData.life = 'Sano';
+        } else if (typeof parsedData.life !== 'string') {
+             parsedData.life = 'Sano';
+        }
+        parsedData.gesta = typeof parsedData.gesta === 'number' ? parsedData.gesta : 0;
+        parsedData.diasBucle = typeof parsedData.diasBucle === 'number' ? parsedData.diasBucle : 0;
+        parsedData.tiempoHora = typeof parsedData.tiempoHora === 'number' ? parsedData.tiempoHora : 0;
+        parsedData.pistasNormales = parsedData.pistasNormales || '';
+        parsedData.pistasConfidenciales = parsedData.pistasConfidenciales || '';
+        parsedData.pistasTemporales = parsedData.pistasTemporales || '';
+        parsedData.notasTanis = parsedData.notasTanis || '';
+        parsedData.notasNorte = parsedData.notasNorte || '';
+        parsedData.notasSur = parsedData.notasSur || '';
+        parsedData.notasMalecon = parsedData.notasMalecon || '';
+        // Ensure money is treated as a number
+        if (parsedData.money !== undefined && typeof parsedData.money !== 'number') {
+            const numMoney = Number(parsedData.money);
+            parsedData.money = !isNaN(numMoney) ? numMoney : 0;
+        } else if (parsedData.money === undefined) { parsedData.money = 0; }
+
+        setCharacterData(parsedData);
+        console.log('Autosave loaded successfully.');
+      } catch (error) {
+        console.error('Error loading autosave:', error);
+      }
+    } else {
+      console.log('No autosave found.');
+    }
+  }, []); // Empty dependency array: runs once on mount
+
+  // Effect to save to autosave whenever characterData changes
+  useEffect(() => {
+    // This effect will run after the initial load effect.
+    // Subsequent updates to characterData will trigger this save.
+    try {
+      // Optionally exclude fields like lastModified if not needed in autosave
+      const { lastModified, ...dataToAutosave } = characterData;
+      localStorage.setItem('autosave_character', JSON.stringify(dataToAutosave));
+      console.log('Autosave updated.');
+    } catch (error) {
+      console.error('Error saving autosave:', error);
+    }
+  }, [characterData]); // Depends on characterData: runs on changes
 
   return (
     <CharacterContext.Provider value={{ characterData, updateCharacter, saveCharacter, loadCharacter, getSavedCharacters, exportCharacter, importCharacter, deleteCharacter }}>
