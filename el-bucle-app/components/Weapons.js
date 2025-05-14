@@ -55,7 +55,7 @@ export default function Weapons() {
               onChange={(e) => handleWeaponChange(index, 'type', e.target.value)}
             >
               <option value="Cuerpo a Cuerpo">Cuerpo a Cuerpo</option>
-              <option value="A Distancia (Tiroteo)">A Distancia (Tiroteo)</option>
+              <option value="A Distancia (Tiroteo)">A Distancia</option>
             </select>
 
             <button
