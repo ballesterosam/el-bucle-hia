@@ -4,12 +4,6 @@ import { useCharacter } from '../context/CharacterContext';
 function GestaTiempo() {
   const { characterData, updateCharacter } = useCharacter();
 
-  const updateGestaBasedOnDays = (currentGesta, newDiasBucle) => {
-      const expectedGesta = Math.floor(newDiasBucle / 7);
-      return Math.max(currentGesta, expectedGesta);
-  };
-
-
   const adjustGesta = (amount) => {
     const newGesta = characterData.gesta + amount;
     if (newGesta >= 0) {
@@ -26,11 +20,6 @@ function GestaTiempo() {
       }
 
       updateCharacter({ diasBucle: newDiasBucle });
-
-      const newGesta = updateGestaBasedOnDays(characterData.gesta, newDiasBucle);
-       if (newGesta !== characterData.gesta) {
-          updateCharacter({ gesta: newGesta });
-       }
     }
   };
 
@@ -42,7 +31,6 @@ function GestaTiempo() {
     if (newTiempoHora > 23) {
       newTiempoHora = 8;
       newDiasBucle += 1;
-       newGesta = updateGestaBasedOnDays(characterData.gesta, newDiasBucle);
 
     } else if (newTiempoHora < 8) {
        if (newDiasBucle > 0) {
@@ -51,17 +39,13 @@ function GestaTiempo() {
        } else {
          newTiempoHora = 8;
        }
-
-       newGesta = updateGestaBasedOnDays(characterData.gesta, newDiasBucle); // Recalculate gesta, ensures it doesn't drop below expected based on new days
     }
 
      const updates = { tiempoHora: newTiempoHora };
      if (newDiasBucle !== characterData.diasBucle) {
          updates.diasBucle = newDiasBucle;
      }
-      if (newGesta !== characterData.gesta) {
-         updates.gesta = newGesta;
-      }
+
       updateCharacter(updates);
   }
   return (
