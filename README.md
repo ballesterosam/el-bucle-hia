@@ -2,7 +2,7 @@
 
 ## Puesta en marcha
 
-En la [el-bucle-app](el-bucle-app/README.md) puedes encontrar todo el detalle necesario para poner en marcha esta aplicación desarrollada en NextJS.
+En la carpeta [el-bucle-app](el-bucle-app/README.md) puedes encontrar todo el detalle necesario para poner en marcha esta aplicación desarrollada en NextJS.
 
 ## ¿Qué es esto?
 
