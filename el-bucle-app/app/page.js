@@ -10,6 +10,7 @@ import NotasPorZona from '../components/NotasPorZona';
 import SaveModal from '../components/SaveModal';
 import { CharacterProvider, useCharacter } from '../context/CharacterContext'; 
 import LoadModal from '../components/LoadModal';
+import Footer from '../components/Footer';
 
 export default function Home() {
   const CharacterSheetContent = () => {
@@ -61,6 +62,7 @@ export default function Home() {
 
       <SaveModal isVisible={isSaveModalVisible} onClose={closeSaveModal} onSave={saveCharacter} />
       <LoadModal isVisible={isLoadModalVisible} onClose={closeLoadModal} onLoad={handleLoadCharacter} />
+      <Footer />
     </div>
  );
   };
