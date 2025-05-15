@@ -8,7 +8,7 @@ export default function Objetos() {
     <div className="card lg:col-span-3 md:col-span-2 ">
       <h2 className="card-title">Objetos</h2>
 
-      <div className="grid grid-cols-2 md:grid-cols-2 gap-6">
+      <div className="grid sm:grid-cols-2 md:grid-cols-2 gap-6">
         <div>
           <Weapons />
         </div>

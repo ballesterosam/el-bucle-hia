@@ -32,7 +32,7 @@ export default function Weapons() {
       <h3 className="text-lg font-semibold mb-2">Armas <span className="text-xs-custom">(máximo 3)</span></h3>
       <div id="weaponsList">
         {characterData.weapons.map((weapon, index) => (
-          <div key={index} className="weapon-item grid grid-cols-12 gap-2 mb-2 p-3 items-center sm:grid-cols-12">
+          <div key={index} className="weapon-item grid grid-cols-1 gap-2 mb-2 p-3 items-center sm:grid-cols-12">
             <input
               type="text"
               placeholder="Nombre del Arma"

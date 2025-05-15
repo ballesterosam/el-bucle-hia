@@ -53,7 +53,7 @@ export default function Home() {
         </div>
       </div>
       <div className="footer-actions flex flex-wrap justify-center items-center gap-4">
-        <div className="md:col-span-3 flex justify-center space-x-4 mt-4">
+        <div className="md:col-span-3 flex justify-center space-x-4 mt-4 grid-cols-1 grid sm:grid-cols-3 md:grid-cols-3">
           <button onClick={handleNewCharacter} className="btn">Nuevo Personaje</button>
           <button onClick={openLoadModal} className="btn">Cargar Personaje</button>
           <button onClick={openSaveModal} className="btn">Guardar Personaje</button> 
