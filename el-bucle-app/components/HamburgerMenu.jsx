@@ -37,15 +37,33 @@ export default function HamburgerMenu() {
       {/* Menú desplegable */}
       {isOpen && (
         <div className="absolute top-12 right-0 w-48 bg-[#0a192f] border border-[#00f9ff] shadow-lg rounded-md py-2 z-50" style={{boxShadow: '0 0 15px rgba(0, 249, 255, 0.3)'}}>
-          <Link href="/" className="block px-4 py-2 text-[#e0e0e0] hover:bg-[rgba(0,249,255,0.1)]">
+          <a href="/" className="block px-4 py-2 text-[#e0e0e0] hover:bg-[rgba(0,249,255,0.1)]">
             Inicio
-          </Link>
+          </a>
           <button 
             onClick={openMapaModal} 
             className="w-full text-left px-4 py-2 text-[#e0e0e0] hover:bg-[rgba(0,249,255,0.1)]"
           >
             Mapa de Tanis
           </button>
+          <a
+            href="/help"
+            className="block px-4 py-2 text-[#e0e0e0] hover:bg-[rgba(0,249,255,0.1)]"
+          >
+            Ayuda
+          </a>
+          <a 
+            href="/license"
+            className="block px-4 py-2 text-[#e0e0e0] hover:bg-[rgba(0,249,255,0.1)]"
+            >
+            Licencia
+          </a>
+          <a
+            href="/about"
+            className="block px-4 py-2 text-[#e0e0e0] hover:bg-[rgba(0,249,255,0.1)]"
+          >
+            Sobre mi
+          </a>
         </div>
       )}
 
