@@ -1,7 +1,5 @@
 'use client';
 import { useState } from 'react';
-import Link from 'next/link';
-import Image from 'next/image';
 
 export default function HamburgerMenu() {
   const [isOpen, setIsOpen] = useState(false);
@@ -39,6 +37,11 @@ export default function HamburgerMenu() {
         <div className="absolute top-12 right-0 w-48 bg-[#0a192f] border border-[#00f9ff] shadow-lg rounded-md py-2 z-50" style={{boxShadow: '0 0 15px rgba(0, 249, 255, 0.3)'}}>
           <a href="/" className="block px-4 py-2 text-[#e0e0e0] hover:bg-[rgba(0,249,255,0.1)]">
             Inicio
+          </a>
+          <a 
+            href="/mapa-mental" 
+            className="block px-4 py-2 text-[#e0e0e0] hover:bg-[rgba(0,249,255,0.1)]">
+              Mapa Mental
           </a>
           <button 
             onClick={openMapaModal} 

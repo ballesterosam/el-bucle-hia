@@ -29,6 +29,11 @@ const LicensePage = () => {
               </div>
             </div>
         </div>
+        <div className="mt-6">
+          <a href="/" className="text-[#00f9ff] hover:underline" style={{textShadow: '0 0 3px #00f9ff'}}>
+            ← Volver al inicio
+          </a>
+        </div>
       </div>
       <Footer />
     </div>
