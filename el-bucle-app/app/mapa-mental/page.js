@@ -273,8 +273,13 @@ const MapaMentalPage = () => {
     // Calcular el offset para mantener la posición relativa del cursor
     const nodeElement = e.currentTarget;
     const rect = nodeElement.getBoundingClientRect();
-    const offsetX = e.clientX - rect.left;
-    const offsetY = e.clientY - rect.top;
+    
+    // Manejar tanto eventos de ratón como eventos táctiles
+    const clientX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
+    const clientY = e.type.includes('touch') ? e.touches[0].clientY : e.clientY;
+    
+    const offsetX = clientX - rect.left;
+    const offsetY = clientY - rect.top;
     
     setDraggedNode(nodeId);
     setDragOffset({ x: offsetX, y: offsetY });
@@ -287,9 +292,13 @@ const MapaMentalPage = () => {
     e.preventDefault(); 
     if (!draggedNode) return;
     
+    // Manejar tanto eventos de ratón como eventos táctiles
+    const clientX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
+    const clientY = e.type.includes('touch') ? e.touches[0].clientY : e.clientY;
+    
     const containerRect = containerRef.current.getBoundingClientRect();
-    const x = e.clientX - containerRect.left - dragOffset.x;
-    const y = e.clientY - containerRect.top - dragOffset.y;
+    const x = clientX - containerRect.left - dragOffset.x;
+    const y = clientY - containerRect.top - dragOffset.y;
     
     // Mantener el nodo dentro del contenedor
     const { x: constrainedX, y: constrainedY } = keepNodeInContainer(
@@ -320,6 +329,23 @@ const MapaMentalPage = () => {
     nodeElements.forEach(el => el.classList.remove('dragging'));
     
     setDraggedNode(null);
+  };
+  
+  // Manejadores específicos para eventos táctiles
+  const handleTouchStart = (e, nodeId) => {
+    // Prevenir el comportamiento por defecto para evitar el desplazamiento de la página
+    e.preventDefault();
+    handleDragStart(e, nodeId);
+  };
+  
+  const handleTouchMove = (e) => {
+    if (!draggedNode) return;
+    e.preventDefault();
+    handleDragOver(e);
+  };
+  
+  const handleTouchEnd = (e) => {
+    handleDragEnd(e);
   };
   
   // Función para calcular los puntos de conexión entre nodos
@@ -420,6 +446,8 @@ const MapaMentalPage = () => {
                 onClick={handleContainerClick}
                 onMouseMove={handleDragOver}
                 onMouseUp={handleDragEnd}
+                onTouchMove={handleTouchMove}
+                onTouchEnd={handleTouchEnd}
               >
                 {/* SVG para las líneas de conexión */}
                 <svg className="absolute top-0 left-0 w-full h-full pointer-events-none">
@@ -439,6 +467,8 @@ const MapaMentalPage = () => {
                     onClick={(e) => e.stopPropagation()} // Evitar que el clic se propague al contenedor
                     onMouseDown={(e) => handleDragStart(e, node.id)}
                     onMouseUp={handleDragEnd}
+                    onTouchStart={(e) => handleTouchStart(e, node.id)}
+                    onTouchEnd={handleTouchEnd}
                   >
                     <div className="flex items-start">
                       <textarea
