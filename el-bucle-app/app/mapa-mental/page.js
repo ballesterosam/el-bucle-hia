@@ -335,6 +335,11 @@ const MapaMentalPage = () => {
   const handleTouchStart = (e, nodeId) => {
     // Prevenir el comportamiento por defecto para evitar el desplazamiento de la página
     e.preventDefault();
+    
+    // Bloquear el scroll de la página mientras se arrastra
+    document.body.style.overflow = 'hidden';
+    document.documentElement.style.overflow = 'hidden';
+    
     handleDragStart(e, nodeId);
   };
   
@@ -345,6 +350,10 @@ const MapaMentalPage = () => {
   };
   
   const handleTouchEnd = (e) => {
+    // Restaurar el scroll de la página cuando se suelta el nodo
+    document.body.style.overflow = '';
+    document.documentElement.style.overflow = '';
+    
     handleDragEnd(e);
   };
   
