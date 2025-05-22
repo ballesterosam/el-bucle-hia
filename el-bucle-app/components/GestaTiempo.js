@@ -44,6 +44,9 @@ function GestaTiempo() {
      const updates = { tiempoHora: newTiempoHora };
      if (newDiasBucle !== characterData.diasBucle) {
          updates.diasBucle = newDiasBucle;
+         if (newDiasBucle === characterData.diasBucle + 1) {
+            updateCharacter({ pistasTemporales: '' });
+         }
      }
 
       updateCharacter(updates);

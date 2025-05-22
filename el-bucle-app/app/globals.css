@@ -297,3 +297,71 @@ select:focus {
 .custom-link {
     color: #00f9ff;
 }
+
+/* Estilos para el drag & drop de nodos */
+.node-container {
+  user-select: none;
+  z-index: 10;
+  border: 1px solid #00f9ff;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  background-color: transparent;
+  box-shadow: 0 0 10px rgba(0, 249, 255, 0.4);
+}
+
+.node-container.dragging {
+  z-index: 100;
+  opacity: 0.9;
+  box-shadow: 0 0 20px rgba(0, 249, 255, 0.7) !important;
+}
+
+.node-container textarea {
+  user-select: text;
+}
+
+/* Estilo para el textarea transparente */
+.transparent-textarea {
+  background-color: transparent !important;
+  border: none !important;
+  color: #e0e0e0 !important;
+  padding: 0 !important;
+  width: 100%;
+  resize: none;
+  font-family: 'Inter', sans-serif;
+  line-height: 1.5;
+  box-shadow: none !important;
+}
+
+.transparent-textarea:focus {
+  outline: none !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.transparent-textarea::placeholder {
+  color: rgba(224, 224, 224, 0.5);
+}
+
+/* Estilo para el botón de eliminación de nodos */
+.delete-node-btn {
+  cursor: pointer;
+}
+
+.delete-node-btn span {
+  display: inline-block;
+  font-size: 1.2rem;
+  line-height: 1;
+  padding: 0 3px;
+}
+
+/* Estilo para el botón de añadir nodos */
+.add-node-btn {
+  cursor: pointer;
+}
+
+.add-node-btn span {
+  display: inline-block;
+  font-size: 1.2rem;
+  line-height: 1;
+  padding: 0 3px;
+}
