@@ -26,6 +26,7 @@ const LicensePage = () => {
                   <p className="text-justify mb-4">Como bien dice la gente de la Free Software Foundation, esto va de <strong>"libertad, no de precio"</strong>. Aunque, oye, que esta app sea como un regalo caído del cielo tampoco está nada mal. ¡A disfrutarla!</p>
                   <p className="text-justify mb-4">Si sois de esa extraña especie de humanos que se leen los términos y condiciones hasta del champú, o simplemente os va el masoquismo legal y queréis empaparos del texto completo y oficial (y mucho menos divertido, todo sea dicho), aquí tenéis el pergamino sagrado: <a className="custom-link" href="https://www.gnu.org/licenses/gpl-3.0.html">Licencia GNU GPL v3</a>. ¡Que la Fuerza (y una buena dosis de paciencia) os acompañen en su lectura!</p>
           
+                  <p className="text-justify mb-4">Dicho todo esto, aquí dejo el enlace al código fuente de la aplicación: <a href="https://github.com/ballesterosam/el-bucle-hia">https://github.com/ballesterosam/el-bucle-hia</a></p>
               </div>
             </div>
         </div>

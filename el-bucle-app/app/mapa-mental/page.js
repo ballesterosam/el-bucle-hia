@@ -433,7 +433,7 @@ const MapaMentalPage = () => {
           <div className="grid-container flex-grow">
             <div className="card lg:col-span-6 flex flex-col flex-grow">
               <div className="flex justify-between items-center mb-4">
-                <p className="text-justify">Haz clic en cualquier punto para añadir una nota. Arrástrala para colocarla en un sitio mejor, o crea notas enlazadas si crees que eso va a salvar tu pescuezo.</p>
+                <p className="text-justify">Haz clic en cualquier punto para añadir una nota. Para evitar frustraciones inútiles, no te recomendaría usar esto desde un teléfono móvil.</p>
                 <button 
                   onClick={clearMapaMental}
                   className="text-red-400 hover:text-red-300 text-sm ml-4 px-3 py-1"
